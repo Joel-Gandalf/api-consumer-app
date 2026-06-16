@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fetch vs Axios</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="general-container-page">
-        <header>
+        <header class="basic-header">
             <h1>Consum de dades d'API amb Fetch i Axios</h1>
             <div class="container-controls">
                 <select name="use-fetch-axios" id="use-fetch-axios">
-                    <option value="">Utilitza Fetch</option>
-                    <option value="">Utilitza Axios</option>
+                    <option value="fetch">Utilitza Fetch</option>
+                    <option value="axios">Utilitza Axios</option>
                 </select>
                 <div class="search-elements">
                     <label><input type="text" name="search" id="search" placeholder="Cerca..."></label>
-                    <button type="button">Busca</button>
+                    <button type="button">Obtenir Dades</button>
                 </div>
             </div>
         </header>
         <main>
-            <div id="visual-loading"></div>
-            <div id="insert-error-messages"></div>
+            <div class="hidden" id="visual-loading"></div>
+            <div class="hidden" id="insert-error-messages">hola</div>
             <div id="insert-results"></div>
             <!-- ???????? -->
             <nav></nav>
         </main>
     </div>
+
+    <script src="main.js"></script>
 </body>
 </html>
