@@ -98,3 +98,13 @@
     gap: 20px;
     margin-bottom: 35px;
 }
+
+.card {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    gap: 10px;
+    border: 1px solid var(--search-elements-color);
+    border-radius: 8px;
+    box-shadow: 0 0 15px 2px rgba(243, 157, 95, 0.25);
+}
