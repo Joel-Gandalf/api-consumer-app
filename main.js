@@ -39,7 +39,7 @@ const refresh = (id) => {
 }
 
 const users = [];
-const action = document.getElementById('action');
+const action = document.getElementById('fetch-button');
 
 action.addEventListener('click', () => {
     const cards = renderCards(users);
