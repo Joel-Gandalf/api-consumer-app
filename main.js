@@ -17,32 +17,34 @@ const createCard = (user) => {
     return card;
 }
 
-const renderCards1 = (users) => {
-    const containerResults = document.getElementById('insert-results');
-    // containerResults.innerHTML = '';
-    // Método moderno que reemplaza a innerHTML.
-    containerResults.replaceChildren();
-
-    users.forEach(user => {
-        const card = createCard(user);
-        containerResults.appendChild(card);
-    });
-}
-
-const renderCards2 = (users) => {
-    const containerResults = document.getElementById('insert-results');
+const renderCards = (users) => {
     const fragment = document.createDocumentFragment();
 
     users.forEach(user => {
         const card = createCard(user);
         fragment.appendChild(card);
     });
-
-    containerResults.replaceChildren(fragment);
-
-// DocumentFragment sería más correcto por rendimiento.
-// El motivo de usarlo es evitar reflows innecesarios. Cada appendChild directo al DOM provoca que el navegador recalcule el layout. Con DocumentFragment Todas las tarjetas se construyen en el fragmento (que vive fuera del DOM real), y solo hay un único reflow cuando haces replaceChildren(fragment) al final.
+    return fragment;
 }
 
+const show = (id, toshow) => {
+    // así perdería los nodos creados en createCard:
+    // document.getElementById(id).textContent = toshow;
+    document.getElementById(id).appendChild(toshow);
+}
+
+const refresh = (id) => {
+    const container = document.getElementById(id);
+    container.replaceChildren();
+}
+
+const users = [];
+const action = document.getElementById('action');
+
+action.addEventListener('click', () => {
+    const cards = renderCards(users);
+    refresh('insert-results');
+    show('insert-results', cards);
+});
 
 
