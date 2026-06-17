@@ -1,3 +1,14 @@
+const API_URL = 'https://jsonplaceholder.typicode.com/posts';
+let currentPage = 1;
+const itemsPerPage = 10;
+
+const apiSelector = document.getElementById('api-selector');
+const searchInput = document.getElementById('search-input');
+const loadingElement = document.getElementById('loading-element');
+const errorElement = document.getElementById('insert-error-element');
+const resultsContainer = document.getElementById('insert-results');
+const paginationContainer = document.getElementById('pagination-container');
+
 const createCard = (user) => {
     const card = document.createElement('div');
     card.classList.add('card');
@@ -39,9 +50,9 @@ const refresh = (id) => {
 }
 
 const users = [];
-const action = document.getElementById('fetch-button');
+const fetchButton = document.getElementById('fetch-button');
 
-action.addEventListener('click', () => {
+fetchButton.addEventListener('click', () => {
     const cards = renderCards(users);
     refresh('insert-results');
     show('insert-results', cards);
