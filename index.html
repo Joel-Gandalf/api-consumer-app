@@ -30,6 +30,20 @@
         </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
+
+<!-- CDN (Content Delivery Network) es una red de servidores distribuidos que sirve archivos estáticos. Cuando pones:
+html<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+El navegador hace una petición a un servidor externo para descargar Axios en tiempo de carga de la página. La librería llega como un script global y deposita axios en window.
+Con Vite en cambio harías:
+npm install axios
+Y en tu JS:
+javascriptimport axios from 'axios';
+Vite actúa como bundler — en el proceso de build lee todos tus imports, busca los paquetes en node_modules y los empaqueta junto con tu código en un único archivo optimizado. El navegador nunca hace peticiones externas para cargar librerías — todo ya está incluido en el bundle.
+Resumiendo:
+
+CDN → el navegador descarga la librería de un servidor externo en runtime
+Vite + npm → la librería se empaqueta con tu código en build time, sin dependencias externas en producción -->
