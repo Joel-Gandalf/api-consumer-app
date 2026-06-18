@@ -3,7 +3,6 @@ const API_URL = 'https://jsonplaceholder.typicode.com/posts';
 let currentPage = 1;
 const itemsPerPage = 10;
 
-fetchDataWithAxios();
 const apiSelector = document.getElementById('api-selector');
 const searchInput = document.getElementById('search-input');
 const loadingElement = document.getElementById('loading-element');
@@ -69,9 +68,16 @@ const hideLoading = () => {
     loadingElement.classList.add('hidden');
 }
 
-const showError = () => {
-    // ACTUALIZAR TEXTO DE ERROR
+const showError = (messageError) => {
+    const error = document.createElement('p');
+    error.classList.add('error-element');
+    error.textContent = messageError;
+
     errorElement.classList.remove('hidden');
+
+    refresh('insert-error-element');
+
+    show('insert-error-element', error);
 }
 
 const hideError = () => {
@@ -80,12 +86,12 @@ const hideError = () => {
 
 const fetchData = async (params) => {
     const searchTherm = searchInput.value;
-    const useAxios = apiSelector.value;
-
+    const apiSelectorValue = apiSelector.value;
+    const useAxios = apiSelectorValue === 'axios';
     showLoading();
     hideError();
 
-        // ... (Neteja resultats anteriors i paginació anterior)
+    // ... (Neteja resultats anteriors i paginació anterior)
 
     try {
         if (useAxios) {
@@ -113,14 +119,44 @@ function setupPagination(totalItems) {
 // Funció per obtenir dades amb Fetch (a implementar)
 async function fetchDataWithFetch(searchTerm) {
     // ... (Implementa la petició amb Fetch API)
+    try {
+        // request
+        const response = await fetch(`${API_URL}?_page=${currentPage}&_limit=${itemsPerPage}&q=${searchTerm}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        // json()es asíncrono, como todos los demás métodos para acceder al contenido del cuerpo de la respuesta. POR ESO NECESITAMOS await OTRA VEZ.
+        const result = await response.json();
+        // cabezera de http que devuelve el total de items en servidor.
+        const totalItems = response.headers.get('X-Total-Count');
+
+        displayResults(result, totalItems);
+    } catch (error) {
+        showError(error.message);
+    }
 }
 
 async function fetchDataWithAxios(searchTerm) {
     // ... (Implementa la petició amb Fetch API)
-    const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/posts/1"
-    );
-    console.log(response.data);
+    try {
+        const response = await axios.get(API_URL, {
+            params: {
+                _page: currentPage,
+                _limit: itemsPerPage,
+                q: searchTerm
+            }
+        });
+        const result = response.data;
+        const totalItems = response.headers['x-total-count'];
+
+        displayResults(result, totalItems);
+    } catch (error) {
+        if (error.response) {
+            showError(error.response.statusText);
+            return;
+        }
+        showError(error.message);
+    }
 }
 
 const executeFetchData = async () => {
@@ -139,6 +175,5 @@ fetchButton.addEventListener('click', () => {
     refresh('insert-results');
     show('insert-results', results);
 });
-
 
 
