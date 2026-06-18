@@ -14,17 +14,17 @@ const createCard = (user) => {
     const card = document.createElement('div');
     card.classList.add('card');
 
-    const userId = document.createElement('h2');
-    userId.textContent = user.userId;
+    // const userId = document.createElement('h2');
+    // userId.textContent = user.userId;
 
-    const id = document.createElement('p');
-    id.textContent = user.id;
-
-    const title = document.createElement('p');
+    const title = document.createElement('h2');
     title.textContent = user.title;
 
     const body = document.createElement('p');
     body.textContent = user.body;
+
+    const id = document.createElement('p');
+    id.textContent = user.id;
 
     // card.appendChild(name);
     // card.appendChild(email);
@@ -55,10 +55,6 @@ const refresh = (id) => {
     const container = document.getElementById(id);
     container.replaceChildren();
 }
-
-
-
-
 
 const showLoading = () => {
     loadingElement.classList.remove('hidden');
@@ -96,8 +92,10 @@ const fetchData = async (params) => {
     try {
         if (useAxios) {
             // ... (Crida la funció per obtenir dades amb Axios)
+            fetchDataWithAxios(searchTherm);
         } else {
             // ... (Crida la funció per obtenir dades amb Fetch)
+            fetchDataWithFetch(searchTherm);
         }
     } catch (error) {
         // ... (Gestiona errors inesperats si s'escapen de les funcions específiques de Fetch/Axios)
@@ -110,10 +108,23 @@ const fetchData = async (params) => {
 // Funció per a la visualització dels resultats i la paginació (a implementar)
 function displayResults(items, totalItems) {
     // ... (Implementa la lògica per mostrar cada "ítem" com una targeta i per cridar setupPagination)
+    refresh('insert-results');
+    if (items.length === 0) {
+        const noResultsMessage = document.createElement('p');
+        noResultsMessage.classList.add('no-results-message');
+        noResultsMessage.textContent = `No s'han trobat resultats`;
+        show('insert-results', noResultsMessage);
+        return;
+    }
+
+    const cards = renderCards(items);
+    show('insert-results', cards);
+    setupPagination(totalItems);
 }
 
 function setupPagination(totalItems) {
     // ... (Implementa la lògica per crear els botons de paginació)
+    
 }
 
 // Funció per obtenir dades amb Fetch (a implementar)
