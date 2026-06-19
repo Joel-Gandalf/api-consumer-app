@@ -80,25 +80,27 @@ const hideError = () => {
     errorElement.classList.add('hidden');
 }
 
-const fetchData = async (params) => {
-    const searchTherm = searchInput.value;
+const fetchData = async () => {
+    const searchTerm = searchInput.value;
     const apiSelectorValue = apiSelector.value;
     const useAxios = apiSelectorValue === 'axios';
     showLoading();
     hideError();
-
+    refresh('insert-results');
+    refresh('pagination-container');
     // ... (Neteja resultats anteriors i paginació anterior)
 
     try {
         if (useAxios) {
             // ... (Crida la funció per obtenir dades amb Axios)
-            fetchDataWithAxios(searchTherm);
+            await fetchDataWithAxios(searchTerm);
         } else {
             // ... (Crida la funció per obtenir dades amb Fetch)
-            fetchDataWithFetch(searchTherm);
+            await fetchDataWithFetch(searchTerm);
         }
     } catch (error) {
         // ... (Gestiona errors inesperats si s'escapen de les funcions específiques de Fetch/Axios)
+        showError(error.message);
     } finally {
         hideLoading();
     }
@@ -124,7 +126,32 @@ function displayResults(items, totalItems) {
 
 function setupPagination(totalItems) {
     // ... (Implementa la lògica per crear els botons de paginació)
-    
+    refresh('pagination-container');
+
+    const buttons = document.createDocumentFragment()
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.classList.add('button');
+        button.textContent = i;
+        // const buttonLeft = document.createElement('button');
+        // const buttonRigth = document.createElement('button');
+        // buttonLeft.classList.add('button');
+        // buttonRigth.classList.add('button');
+        button.addEventListener('click', () => {
+            currentPage = i;
+            fetchData();
+            // button.disabled = true;
+        });
+        if (i === currentPage) {
+            button.disabled = true;
+            button.classList.add('active');
+        }
+
+        buttons.appendChild(button);
+    }
+    show('pagination-container', buttons);
 }
 
 // Funció per obtenir dades amb Fetch (a implementar)
