@@ -197,21 +197,20 @@ async function fetchDataWithAxios(searchTerm) {
     }
 }
 
-const executeFetchData = async () => {
-    const resultsFetchData = await fetchData();
-    return resultsFetchData;
-}
+// const executeFetchData = async () => {
+//     const resultsFetchData = await fetchData();
+//     return resultsFetchData;
+// }
 
-const users = [];
 const fetchButton = document.getElementById('fetch-button');
 
 fetchButton.addEventListener('click', () => {
     // const cards = renderCards(users);
-    const results = executeFetchData();
+    // const results = executeFetchData();
+    fetchData();
 
-
-    refresh('insert-results');
-    show('insert-results', results);
+    // refresh('insert-results');
+    // show('insert-results', results);
 });
 
 
