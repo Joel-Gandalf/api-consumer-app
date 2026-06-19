@@ -3,14 +3,13 @@ const API_URL = 'https://jsonplaceholder.typicode.com/posts';
 let currentPage = 1;
 const itemsPerPage = 10;
 
-const apiSelector = document.getElementById('api-selector');
-const searchInput = document.getElementById('search-input');
 const loadingElement = document.getElementById('loading-element');
 const errorElement = document.getElementById('insert-error-element');
-const resultsContainer = document.getElementById('insert-results');
-const paginationContainer = document.getElementById('pagination-container');
+// NO HE TENIDO QUE USARLAS
+// const resultsContainer = document.getElementById('insert-results');
+// const paginationContainer = document.getElementById('pagination-container');
 
-const createCard = (user) => {
+const createCard = (item) => {
     const card = document.createElement('div');
     card.classList.add('card');
 
@@ -18,19 +17,19 @@ const createCard = (user) => {
     // userId.textContent = user.userId;
 
     const title = document.createElement('h2');
-    title.textContent = user.title;
+    title.textContent = item.title;
 
     const body = document.createElement('p');
-    body.textContent = user.body;
+    body.textContent = item.body;
 
     const id = document.createElement('p');
-    id.textContent = user.id;
+    id.textContent = item.id;
 
     // card.appendChild(name);
     // card.appendChild(email);
 
     // La linea inferior equivale a las dos superiores
-    card.append(userId, id, title, body);
+    card.append(title, body, id);
 
     return card;
 }
@@ -81,9 +80,13 @@ const hideError = () => {
 }
 
 const fetchData = async () => {
-    const searchTerm = searchInput.value;
+    const apiSelector = document.getElementById('api-selector');
     const apiSelectorValue = apiSelector.value;
     const useAxios = apiSelectorValue === 'axios';
+
+    const searchInput = document.getElementById('search-input');
+    const searchTerm = searchInput.value.trim().toLowerCase();
+
     showLoading();
     hideError();
     refresh('insert-results');
@@ -104,7 +107,6 @@ const fetchData = async () => {
     } finally {
         hideLoading();
     }
-
 }
 
 // Funció per a la visualització dels resultats i la paginació (a implementar)
