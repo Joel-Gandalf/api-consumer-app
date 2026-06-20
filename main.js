@@ -86,13 +86,13 @@ const fetchData = async () => {
 
     const searchInput = document.getElementById('search-input');
     const searchTerm = searchInput.value.trim().toLowerCase();
-
+   
     showLoading();
     hideError();
     refresh('insert-results');
     refresh('pagination-container');
     // ... (Neteja resultats anteriors i paginació anterior)
-
+    
     try {
         if (useAxios) {
             // ... (Crida la funció per obtenir dades amb Axios)
@@ -107,6 +107,7 @@ const fetchData = async () => {
     } finally {
         hideLoading();
     }
+     currentPage = 1
 }
 
 // Funció per a la visualització dels resultats i la paginació (a implementar)
@@ -135,7 +136,7 @@ function setupPagination(totalItems) {
 
     for (let i = 1; i <= totalPages; i++) {
         const button = document.createElement('button');
-        button.classList.add('button');
+        button.classList.add('button-pagination');
         button.textContent = i;
         // const buttonLeft = document.createElement('button');
         // const buttonRigth = document.createElement('button');
