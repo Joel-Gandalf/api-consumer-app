@@ -1,16 +1,14 @@
-/* Bloque obligatorio para texto normal y negritas */
 @font-face {
   font-family: 'Source Sans Pro';
-  src: url('./assets/fonts/SourceSans3-VariableFont_wght.ttf') format('woff2-variations');
+  src: url('src/assets/fonts/SourceSans3-VariableFont_wght.ttf') format('woff2-variations');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
-/* Bloque obligatorio para el texto en cursiva */
 @font-face {
   font-family: 'Source Sans Pro';
-  src: url('./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf') format('woff2-variations');
+  src: url('src/assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf') format('woff2-variations');
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -21,6 +19,10 @@
 
     --h1-color: brown;
     --search-elements-color: rgb(243, 157, 95);
+    --text-search-button:black;
+    --shadow-color: rgba(243, 157, 95, 0.25);
+    --shadow-hover-color: rgba(165, 42, 42, 0.316);
+    --active-text-color: floralwhite;
 }
 
 *, ::before, ::after {
@@ -65,22 +67,33 @@
 
 .search-elements button {
     padding: 5px 8px;
-    color: black;
+    color: var(--text-search-button);
     background: var(--search-elements-color);
     border: 1px solid var(--search-elements-color);
     border-radius: 5px;
     cursor: pointer;
 }
 
-#visual-loading {
+#loading-element {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--shadow-color);
+    border-top-color: var(--h1-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 100;
 }
 
-#insert-error-messages {
+@keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+#insert-error-element {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -106,5 +119,51 @@
     gap: 10px;
     border: 1px solid var(--search-elements-color);
     border-radius: 8px;
-    box-shadow: 0 0 15px 2px rgba(243, 157, 95, 0.25);
+    box-shadow: 0 0 10px 2px var(--shadow-color);
+    position: relative;
+    padding-bottom: 40px;
+    min-height: 300px;
 }
+
+.card p:first-of-type {
+    text-align: justify;
+}
+
+.card p:last-of-type {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    margin: 0;
+}
+
+.card:hover {
+    border: 1px solid var(--h1-color);
+    box-shadow: 0 0 10px 2px var(--shadow-hover-color);
+}
+
+#pagination-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.button-pagination {
+    font-size: 20px;
+    width: 35px;
+    height: 35px;
+    border: 1px solid var(--search-elements-color);
+    border-radius: 50%;
+    background: var(--shadow-color);
+}
+
+.button-pagination:not(.active):hover {
+    box-shadow: 0 0 15px 2px var(--shadow-color);
+    color: var(--h1-color);
+}
+
+.active {
+    background: var(--search-elements-color);
+    color: var(--active-text-color);
+}
+
