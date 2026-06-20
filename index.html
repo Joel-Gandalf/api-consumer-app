@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fetch vs Axios</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="general-container-page">
-        <header>
+        <header class="basic-header">
             <h1>Consum de dades d'API amb Fetch i Axios</h1>
             <div class="container-controls">
-                <select name="use-fetch-axios" id="use-fetch-axios">
-                    <option value="">Utilitza Fetch</option>
-                    <option value="">Utilitza Axios</option>
+                <select name="api-selector" id="api-selector">
+                    <option value="fetch">Utilitza Fetch</option>
+                    <option value="axios">Utilitza Axios</option>
                 </select>
                 <div class="search-elements">
-                    <label><input type="text" name="search" id="search" placeholder="Cerca..."></label>
-                    <button type="button">Busca</button>
+                    <label><input type="text" name="search-input" id="search-input" placeholder="Cerca..."></label>
+                    <button id="fetch-button" type="button">Obtenir Dades</button>
                 </div>
             </div>
         </header>
         <main>
-            <div id="visual-loading"></div>
-            <div id="insert-error-messages"></div>
+            <div class="hidden" id="loading-element"></div>
+            <div class="hidden" id="insert-error-element">hola</div>
             <div id="insert-results"></div>
-            <!-- ???????? -->
-            <nav></nav>
+            <nav id="pagination-container" aria-label="paginació"></nav>
         </main>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
