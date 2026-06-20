@@ -1,20 +1,13 @@
-// import axios from "axios";
 const API_URL = 'https://jsonplaceholder.typicode.com/posts';
 let currentPage = 1;
 const itemsPerPage = 10;
 
 const loadingElement = document.getElementById('loading-element');
 const errorElement = document.getElementById('insert-error-element');
-// NO HE TENIDO QUE USARLAS
-// const resultsContainer = document.getElementById('insert-results');
-// const paginationContainer = document.getElementById('pagination-container');
 
 const createCard = (item) => {
     const card = document.createElement('div');
     card.classList.add('card');
-
-    // const userId = document.createElement('h2');
-    // userId.textContent = user.userId;
 
     const title = document.createElement('h2');
     title.textContent = item.title;
@@ -25,10 +18,6 @@ const createCard = (item) => {
     const id = document.createElement('p');
     id.textContent = item.id;
 
-    // card.appendChild(name);
-    // card.appendChild(email);
-
-    // La linea inferior equivale a las dos superiores
     card.append(title, body, id);
 
     return card;
@@ -45,8 +34,6 @@ const renderCards = (users) => {
 }
 
 const show = (id, toshow) => {
-    // así perdería los nodos creados en createCard:
-    // document.getElementById(id).textContent = toshow;
     document.getElementById(id).appendChild(toshow);
 }
 
@@ -91,18 +78,14 @@ const fetchData = async () => {
     hideError();
     refresh('insert-results');
     refresh('pagination-container');
-    // ... (Neteja resultats anteriors i paginació anterior)
     
     try {
         if (useAxios) {
-            // ... (Crida la funció per obtenir dades amb Axios)
             await fetchDataWithAxios(searchTerm);
         } else {
-            // ... (Crida la funció per obtenir dades amb Fetch)
             await fetchDataWithFetch(searchTerm);
         }
     } catch (error) {
-        // ... (Gestiona errors inesperats si s'escapen de les funcions específiques de Fetch/Axios)
         showError(error.message);
     } finally {
         hideLoading();
@@ -110,10 +93,9 @@ const fetchData = async () => {
      currentPage = 1
 }
 
-// Funció per a la visualització dels resultats i la paginació (a implementar)
 function displayResults(items, totalItems) {
-    // ... (Implementa la lògica per mostrar cada "ítem" com una targeta i per cridar setupPagination)
     refresh('insert-results');
+
     if (items.length === 0) {
         const noResultsMessage = document.createElement('p');
         noResultsMessage.classList.add('no-results-message');
@@ -128,7 +110,6 @@ function displayResults(items, totalItems) {
 }
 
 function setupPagination(totalItems) {
-    // ... (Implementa la lògica per crear els botons de paginació)
     refresh('pagination-container');
 
     const buttons = document.createDocumentFragment()
@@ -138,15 +119,12 @@ function setupPagination(totalItems) {
         const button = document.createElement('button');
         button.classList.add('button-pagination');
         button.textContent = i;
-        // const buttonLeft = document.createElement('button');
-        // const buttonRigth = document.createElement('button');
-        // buttonLeft.classList.add('button');
-        // buttonRigth.classList.add('button');
+
         button.addEventListener('click', () => {
             currentPage = i;
             fetchData();
-            // button.disabled = true;
         });
+
         if (i === currentPage) {
             button.disabled = true;
             button.classList.add('active');
@@ -154,21 +132,18 @@ function setupPagination(totalItems) {
 
         buttons.appendChild(button);
     }
+
     show('pagination-container', buttons);
 }
 
-// Funció per obtenir dades amb Fetch (a implementar)
 async function fetchDataWithFetch(searchTerm) {
-    // ... (Implementa la petició amb Fetch API)
     try {
-        // request
         const response = await fetch(`${API_URL}?_page=${currentPage}&_limit=${itemsPerPage}&q=${searchTerm}`);
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
-        // json()es asíncrono, como todos los demás métodos para acceder al contenido del cuerpo de la respuesta. POR ESO NECESITAMOS await OTRA VEZ.
+
         const result = await response.json();
-        // cabezera de http que devuelve el total de items en servidor.
         const totalItems = response.headers.get('X-Total-Count');
 
         displayResults(result, totalItems);
@@ -178,7 +153,6 @@ async function fetchDataWithFetch(searchTerm) {
 }
 
 async function fetchDataWithAxios(searchTerm) {
-    // ... (Implementa la petició amb Fetch API)
     try {
         const response = await axios.get(API_URL, {
             params: {
@@ -200,20 +174,8 @@ async function fetchDataWithAxios(searchTerm) {
     }
 }
 
-// const executeFetchData = async () => {
-//     const resultsFetchData = await fetchData();
-//     return resultsFetchData;
-// }
-
 const fetchButton = document.getElementById('fetch-button');
 
 fetchButton.addEventListener('click', () => {
-    // const cards = renderCards(users);
-    // const results = executeFetchData();
     fetchData();
-
-    // refresh('insert-results');
-    // show('insert-results', results);
 });
-
-
